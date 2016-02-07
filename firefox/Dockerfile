@@ -1,8 +1,13 @@
 FROM ubuntu:14.04
 
-RUN apt-get -q update
-RUN apt-get -q upgrade -y
-RUN apt-get -q install -y sudo pulseaudio vim wget ca-certificates
+USER root
+ENV USER root
+ENV HOME /root
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install -y sudo pulseaudio vim wget ca-certificates
 
 RUN export uid=1000 gid=1000 && \
     mkdir -p /home/kdridi && \
@@ -17,7 +22,7 @@ RUN apt-get install -y firefox
 USER kdridi
 ENV HOME /home/kdridi
 ENV DISPLAY :0.0
-ENV PULSE_SERVER tcp:172.17.42.1
+ENV PULSE_SERVER tcp:172.17.0.1
 ENV LC_ALL C.UTF-8
 
 CMD firefox
