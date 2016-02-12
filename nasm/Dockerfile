@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y sudo pulseaudio vim wget ca-certificates build-essential git command-not-found zsh
+RUN apt-get install -y sudo pulseaudio vim wget ca-certificates build-essential git command-not-found zsh gdb
 
 RUN export uid=1000 gid=1000 && \
     mkdir -p /home/kdridi && \
