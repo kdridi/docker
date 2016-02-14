@@ -30,23 +30,15 @@ ENV HOME /$USER
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR $HOME
-RUN apt-get install -y firefox
-RUN apt-get install -y cmake gcc g++ git pkg-config ragel libasound2-dev libssl-dev libglib2.0-dev libconfig-dev libpango1.0-dev libgl1-mesa-dev libevent-dev libgtk2.0-dev libxrandr-dev libxrender-dev libxcursor-dev libv4l-dev libgles2-mesa-dev libavcodec-dev libva-dev libvdpau-dev libdrm-dev libpulse-dev
-RUN git clone https://github.com/i-rinat/freshplayerplugin.git && \
-    cd freshplayerplugin && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    make -j8 && \
-    make install
-RUN apt-add-repository -y multiverse
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
 RUN apt-get clean -y
 RUN apt-get update -y
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y pepperflashplugin-nonfree
+RUN apt-get install -y google-chrome-stable
 
 USER kdridi
 ENV USER kdridi
@@ -56,7 +48,4 @@ ENV PULSE_SERVER tcp:172.17.0.1
 ENV LC_ALL C.UTF-8
 
 WORKDIR $HOME
-RUN mkdir -p .mozilla/plugins && \
-    cp /usr/local/lib/mozilla/plugins/libfreshwrapper-flashplayer.so .mozilla/plugins/
-
-CMD firefox
+CMD zsh
