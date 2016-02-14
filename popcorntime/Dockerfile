@@ -30,15 +30,21 @@ ENV HOME /$USER
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR $HOME
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+RUN apt-get install -y libxrender1 libatk1.0-0 libpangocairo-1.0-0 libxi6 libxcomposite1 libnss3 libxfixes3 libxdamage1 libgconf-2-4 libgdk-pixbuf2.0-0 libgtk2.0-0 libudev1
+RUN wget http://popcorn-time.to/Popcorn-Time-linux64.tar.gz
+RUN tar -xf Popcorn-Time-linux64.tar.gz -C /usr/local/bin/
+RUN rm Popcorn-Time-linux64.tar.gz
+RUN cp /lib/x86_64-linux-gnu/libudev.so.1 /lib/x86_64-linux-gnu/libudev.so.0
+
+RUN wget "ftp://ftp.free.fr/mirrors/ftp.ubuntu.com/ubuntu/ls-lR.gz"
+RUN apt-add-repository -y multiverse
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
 RUN apt-get clean -y
 RUN apt-get update -y
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y google-chrome-stable
+RUN apt-get install -y ttf-mscorefonts-installer
 
 USER kdridi
 ENV USER kdridi
@@ -48,4 +54,4 @@ ENV PULSE_SERVER tcp:172.17.0.1
 ENV LC_ALL C.UTF-8
 
 WORKDIR $HOME
-CMD google-chrome-stable
+CMD Popcorn-Time
