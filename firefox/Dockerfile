@@ -5,6 +5,8 @@ ENV USER root
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
+COPY 01proxy /etc/apt/apt.conf.d/01proxy
+
 RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y sudo pulseaudio vim wget ca-certificates build-essential git command-not-found zsh gdb software-properties-common
