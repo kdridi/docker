@@ -9,7 +9,7 @@ COPY 01proxy /etc/apt/apt.conf.d/01proxy
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y sudo pulseaudio vim wget ca-certificates build-essential git command-not-found zsh gdb software-properties-common
+RUN apt-get install -y build-essential ca-certificates command-not-found curl gdb git manpages manpages-dev manpages-fr manpages-fr-dev manpages-fr-extra pulseaudio software-properties-common sudo vim wget zsh
 
 RUN export uid=1000 gid=1000 && login=kdridi && home=/home/${login} && \
     git clone git://github.com/robbyrussell/oh-my-zsh.git ${home}/.oh-my-zsh && \
@@ -44,6 +44,14 @@ RUN export uid=1000 gid=1000 && login=kdridi && home=/home/${login} && \
 USER kdridi
 ENV USER kdridi
 ENV HOME /home/$USER
+
+WORKDIR $HOME
+RUN rm -rf .zcompdump*
+RUN rm -rf .zsh-update
+RUN rm -rf .zsh_history
+RUN sed -i .zshrc -e 's,^plugins=(,plugins=(ubuntu ,'
+RUN sed -i .zshrc -e 's,^plugins=(,plugins=(cabal ,'
+RUN cat .zshrc
 
 WORKDIR /app
 CMD [ "ghci", "Main.hs" ]
