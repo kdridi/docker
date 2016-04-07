@@ -18,7 +18,7 @@ case ${CONFIG_PLATFORM} in
 		docker_run+=" -e PULSE_SERVER=tcp:${CONFIG_IP}"
 		;;
 	Linux)
-		CONFIG_IP=$(ifconfig eth0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+		CONFIG_IP=$(ip route | grep wlan0 | sed 's,^.*src \([^ ]\+\) .*$,\1,' | tail -n 1)
 		docker_run+=" -e DISPLAY=:0.0"
 		docker_run+=" -e PULSE_SERVER=tcp:${CONFIG_IP}"
 		docker_run+=" -v /tmp/.X11-unix:/tmp/.X11-unix"
