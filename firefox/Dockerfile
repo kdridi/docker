@@ -40,4 +40,4 @@ WORKDIR $HOME
 RUN mkdir -p .mozilla/plugins && \
     cp /usr/local/lib/mozilla/plugins/libfreshwrapper-flashplayer.so .mozilla/plugins/
 
-CMD ["firefox", "https://www.youtube.com/watch?v=tfYuIWo06Ng"]
+CMD [ "firefox", "https://www.google.fr/" ]
