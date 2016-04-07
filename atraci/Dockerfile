@@ -35,15 +35,18 @@ WORKDIR $HOME
 RUN apt-get install -y libgtk2.0-0 libnss3 libgconf-2-4 libasound2 libxtst6 libnotify4
 RUN cp /lib/x86_64-linux-gnu/libudev.so.1 /lib/x86_64-linux-gnu/libudev.so.0
 
+RUN apt-get autoremove -y
+RUN apt-get autoclean -y
+RUN apt-get clean -y
+
+RUN export uid=1000 gid=1000 && login=kdridi && home=/home/${login} && \
+    chown ${uid}:${gid} -R ${home}
+
 USER kdridi
 ENV USER kdridi
 ENV HOME /home/$USER
-ENV DISPLAY :0.0
-ENV PULSE_SERVER tcp:172.17.0.1
-ENV LC_ALL C.UTF-8
 
 WORKDIR $HOME
-
 RUN wget -c https://github.com/Atraci/Atraci/releases/download/0.7.0/Atraci-linux64.tar.gz && \
   	tar -xzf Atraci-linux64.tar.gz && \
   	rm -rf Atraci-linux64.tar.gz

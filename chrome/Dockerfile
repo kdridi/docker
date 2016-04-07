@@ -42,12 +42,16 @@ RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y google-chrome-stable
 
+RUN apt-get autoremove -y
+RUN apt-get autoclean -y
+RUN apt-get clean -y
+
+RUN export uid=1000 gid=1000 && login=kdridi && home=/home/${login} && \
+    chown ${uid}:${gid} -R ${home}
+
 USER kdridi
 ENV USER kdridi
 ENV HOME /home/$USER
-ENV DISPLAY :0.0
-ENV PULSE_SERVER tcp:172.17.0.1
-ENV LC_ALL C.UTF-8
 
 WORKDIR $HOME
 CMD google-chrome-stable

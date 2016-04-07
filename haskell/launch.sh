@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-set -e
-
 cd $(dirname $0)
-./build.sh
+source ../config
 
-clear
-source config
-docker run --rm -it --net=host -v /tmp/.X11-unix:/tmp/.X11-unix -v $(pwd)/app:/app $CONFIG_APP_NAME $1
+docker_build
+
+${docker_run} --rm -it $CONFIG_PKG_NAME $1

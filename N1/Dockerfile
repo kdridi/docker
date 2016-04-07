@@ -5,6 +5,8 @@ ENV USER root
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
+COPY 01proxy /etc/apt/apt.conf.d/01proxy
+
 RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y sudo pulseaudio vim wget ca-certificates build-essential git command-not-found zsh gdb software-properties-common
@@ -30,24 +32,11 @@ ENV HOME /$USER
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR $HOME
-RUN apt-get install -y git
-RUN apt-get install -y gconf2
-RUN apt-get install -y gconf-service
-RUN apt-get install -y libgtk2.0-0
-RUN apt-get install -y libnotify4
-RUN apt-get install -y libxtst6
-RUN apt-get install -y libnss3
-RUN apt-get install -y python
-RUN apt-get install -y gvfs-bin
-RUN apt-get install -y xdg-utils
+RUN apt-get install -y git gconf2 gconf-service libgtk2.0-0 libnotify4 libxtst6 libnss3 python gvfs-bin xdg-utils
 
 RUN wget -c https://edgehill.s3-us-west-2.amazonaws.com/0.4.5-b0ec335/linux-deb/x64/N1.deb
 RUN dpkg -i N1.deb
 RUN rm -rf N1.deb
-
-# RUN apt-get install -y npm
-# RUN apt-get install -y nodejs-legacy
-# RUN npm install electron-prebuilt -g
 
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
@@ -59,9 +48,6 @@ RUN export uid=1000 gid=1000 && login=kdridi && home=/home/${login} && \
 USER kdridi
 ENV USER kdridi
 ENV HOME /home/$USER
-ENV DISPLAY :0.0
-ENV PULSE_SERVER tcp:172.17.0.1
-ENV LC_ALL C.UTF-8
 
 WORKDIR $HOME
 RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash

@@ -5,6 +5,8 @@ ENV USER root
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
+COPY 01proxy /etc/apt/apt.conf.d/01proxy
+
 RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y sudo pulseaudio vim wget ca-certificates build-essential git command-not-found zsh gdb software-properties-common
@@ -46,12 +48,16 @@ RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y ttf-mscorefonts-installer
 
+RUN apt-get autoremove -y
+RUN apt-get autoclean -y
+RUN apt-get clean -y
+
+RUN export uid=1000 gid=1000 && login=kdridi && home=/home/${login} && \
+    chown ${uid}:${gid} -R ${home}
+
 USER kdridi
 ENV USER kdridi
 ENV HOME /home/$USER
-ENV DISPLAY :0.0
-ENV PULSE_SERVER tcp:172.17.0.1
-ENV LC_ALL C.UTF-8
 
 WORKDIR $HOME
 CMD Popcorn-Time
